@@ -1,0 +1,17 @@
+name: 'Build ROS repo'
+description: 'Build a ROS repository'
+inputs:
+  repo:  # id of input
+    description: 'repository to build'
+    required: true
+    default: 'MISSING_REPOSITORY'
+  ros_distro:  # ros distro for which to build
+    description: 'ros distribution for which to build'
+    required: true
+    default: 'humble'
+outputs:
+  status: # id of output
+    description: 'outcome of build process'
+runs:
+  using: 'node16'
+  main: 'index.js'

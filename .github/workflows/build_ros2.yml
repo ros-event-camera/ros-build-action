@@ -1,0 +1,46 @@
+name: Build repo on ROS2
+
+on:
+  workflow_call:
+    inputs:
+      repo:
+        required: true
+        type: string
+
+jobs:
+  build_focal_galactic:
+    runs-on: ubuntu-22.04
+    container:
+      image: berndpfrommer/focal_galactic
+    name: focal/galactic (x86_64)
+    steps:
+      - name: check out github repo
+        uses: actions/checkout@v3
+        with:
+          path: src/${{ inputs.repo }}
+          fetch-depth: 0
+      - name: compile and test
+        id: compile_and_test
+        #uses: ros-event-camera/ros-build-action@v0.1
+        uses: ros-event-camera/ros-build-action@master
+        with:
+          repo: ${{ inputs.repo }}
+          ros_distro: galactic
+  build_jammy_humble:
+    runs-on: ubuntu-22.04
+    container:
+      image: berndpfrommer/jammy_humble
+    name: jammy/humble (x86_64)
+    steps:
+      - name: check out github repo
+        uses: actions/checkout@v3
+        with:
+          path: src/${{ inputs.repo }}
+          fetch-depth: 0
+      - name: compile and test
+        id: compile_and_test
+        #uses: ros-event-camera/ros-build-action@v0.1
+        uses: ros-event-camera/ros-build-action@master
+        with:
+          repo: ${{ inputs.repo }}
+          ros_distro: humble

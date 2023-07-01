@@ -1,0 +1,27 @@
+name: Build repo on ROS1
+
+on:
+  workflow_call:
+    inputs:
+      repo:
+        required: true
+        type: string
+
+jobs:
+  build_focal_noetic:
+    runs-on: ubuntu-20.04
+    container:
+      image: berndpfrommer/focal_noetic
+    name: focal/noetic (x86_64)
+    steps:
+      - name: check out github repo
+        uses: actions/checkout@v3
+        with:
+          path: src/${{ inputs.repo }}
+          fetch-depth: 0
+      - name: compile and test
+        id: compile_and_test
+        uses: ros-event-camera/ros-build-action@master
+        with:
+          repo: ${{ inputs.repo }}
+          ros_distro: noetic
