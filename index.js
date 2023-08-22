@@ -31,7 +31,7 @@ try {
 
   if (['noetic', 'kinetic', 'melodic'].includes(`${ros_distro}`)) {
     // ROS1
-    execSync(`. /opt/ros/${ros_distro}/setup.sh && catkin config -DCMAKE_BUILD_TYPE=RelWithDebInfo && catkin build --no-status`, {stdio: 'inherit'})
+    execSync(`. /opt/ros/${ros_distro}/setup.sh && catkin config -DCMAKE_BUILD_TYPE=RelWithDebInfo && catkin build --no-status && catkin test --no-status`, {stdio: 'inherit'})
   } else {
     // ROS2 and later
     execSync(`. /opt/ros/${ros_distro}/setup.sh && colcon build --event-handlers status- --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo && colcon test && colcon test-result --verbose`, {stdio: 'inherit'})
