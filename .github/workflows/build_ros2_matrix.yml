@@ -18,7 +18,7 @@ jobs:
       fail-fast: false
       matrix:
         distro: [humble, iron]
-      steps:
+    steps:
       - uses: actions/checkout@v3
         with:
           path: src/${{ inputs.repo }}
