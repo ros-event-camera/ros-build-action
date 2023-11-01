@@ -1,0 +1,41 @@
+name: Build repo on ROS2 matrix
+
+on:
+  workflow_call:
+    inputs:
+      repo:
+        required: true
+        type: string
+      vcs_url:
+        required: false
+        type: string
+
+jobs:
+  build_on_jammy:
+    name: build_jammy_${{ matrix.distro }}
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        distro: [humble, iron]
+      steps:
+      - uses: actions/checkout@v3
+        with:
+          path: src/${{ inputs.repo }}
+          fetch-depth: 0
+      - uses: ros-tooling/setup-ros@v0.6
+        with:
+          required-ros-distributions: ${{ matrix.distro }}
+      - uses: ros-tooling/action-ros-ci@v0.3
+        with:
+          # package-name: my_package
+          target-ros2-distro: ${{ matrix.distro }}
+          vcs-repo-file-url: ${{ inputs.vcs_url }}
+          colcon-defaults: |
+            {
+              "build": {
+                "cmake-args": [
+                    "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
+                ]
+              }
+            }
