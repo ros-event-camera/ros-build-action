@@ -51,12 +51,11 @@ jobs:
         with:
           path: src/${{ inputs.repo }}
           fetch-depth: 0
-      - uses: ros-tooling/setup-ros@v0.6
+      - uses: ros-tooling/setup-ros@v0.5
         with:
           required-ros-distributions: ${{ matrix.distro }}
       - uses: ros-tooling/action-ros-ci@v0.3
         with:
-          # package-name: my_package
           target-ros2-distro: ${{ matrix.distro }}
           vcs-repo-file-url: ${{ inputs.vcs_url }}
           colcon-defaults: |
